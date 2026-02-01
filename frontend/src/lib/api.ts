@@ -1,6 +1,6 @@
 import { Carrinho, UsoCarrinho, Funcionario } from './types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 // Helper to handle response
 async function handleResponse<T>(response: Response): Promise<T> {

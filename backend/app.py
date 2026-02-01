@@ -3,8 +3,20 @@ from flask_cors import CORS
 from models import UserModel, LIMModel, UsageModel
 import datetime
 
-app = Flask(__name__)
+import os
+
+# Serve static files from the compiled frontend
+app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app) # Allow frontend to access
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+# Catch-all for React Router
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
 # --- Admin Authentication ---
 ADMIN_EMAIL = "admin@gmail.com"
