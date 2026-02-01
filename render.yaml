@@ -1,0 +1,25 @@
+services:
+  # Backend Service
+  - type: web
+    name: agoravai-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/app.py
+    envVars:
+      - key: MONGO_URI
+        sync: false # User needs to input their MongoDB Atlas URI here
+    plan: free
+    autoDeploy: false
+
+  # Frontend Service
+  - type: static
+    name: agoravai-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: agoravai-backend
+          property: url
